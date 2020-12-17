@@ -26,7 +26,7 @@
 	<li>Start Date: <xsl:value-of select="@start_date"/></li>
 	<li>End Date: <xsl:value-of select="@end_date"/></li>
       </ul>
-      <p><a href="{@link}"><xsl:value-of select="link"/></a></p>
+      <p><a href="{link}"><xsl:value-of select="link"/></a></p>
       <p><xsl:value-of select="text"/></p>
     </xsl:for-each>
     
