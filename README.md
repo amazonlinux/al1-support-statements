@@ -1,5 +1,7 @@
 ## Amazon Linux 1 Support Statements
 
+Just want to see the information? Head to https://amazonlinux.github.io/al1-support-statements/
+
 This repository contains information as to the Maintenance Support period
 of Amazon Linux 1.
 
