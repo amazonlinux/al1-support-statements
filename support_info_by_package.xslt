@@ -13,22 +13,6 @@
   <body>
     <h1>Package Support Status (by package)</h1>
     <p>This is current as of <xsl:value-of select="/package_support/@current_as"/></p>
-
-    <h2>Support Statements</h2>
-    <ul>
-      <xsl:for-each select="/package_support/statements/statement">
-	<li><a href="#{@id}"><xsl:value-of select="summary"/></a> (<xsl:value-of select="@marker"/>)</li>
-      </xsl:for-each>
-    </ul>
-    <xsl:for-each select="/package_support/statements/statement">
-      <h2><a name="{@id}"><xsl:value-of select="summary"/></a></h2>
-      <ul>
-	<li>Start Date: <xsl:value-of select="@start_date"/></li>
-	<li>End Date: <xsl:value-of select="@end_date"/></li>
-      </ul>
-      <p><a href="{link}"><xsl:value-of select="link"/></a></p>
-      <p><xsl:value-of select="text"/></p>
-    </xsl:for-each>
     
     <h2>Packages</h2>
     <table cellspacing="0">
@@ -54,6 +38,23 @@
         </tr>
       </xsl:for-each>
     </table>
+
+    <h2>Support Statements</h2>
+    <ul>
+      <xsl:for-each select="/package_support/statements/statement">
+	<li><a href="#{@id}"><xsl:value-of select="summary"/></a> (<xsl:value-of select="@marker"/>)</li>
+      </xsl:for-each>
+    </ul>
+    <xsl:for-each select="/package_support/statements/statement">
+      <h2><a name="{@id}"><xsl:value-of select="summary"/></a></h2>
+      <ul>
+	<li>Start Date: <xsl:value-of select="@start_date"/></li>
+	<li>End Date: <xsl:value-of select="@end_date"/></li>
+	<li><a href="support_info_by_support_statement.html#{@id}">Full list of packages</a></li>
+      </ul>
+      <p><a href="{link}"><xsl:value-of select="link"/></a></p>
+      <p><xsl:value-of select="text"/></p>
+    </xsl:for-each>
     
   </body>
   </html>
