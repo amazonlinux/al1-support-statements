@@ -18,10 +18,8 @@
     <table cellspacing="0">
       <tr>
         <th>Package</th>
-	<th>Supported?</th>
-	<th>Start Date</th>
-	<th>End Date</th>
-	<th>Support</th>
+	<th>EoL Date</th>
+	<th>Support Statement</th>
 	<th>Note</th>
       </tr>
       <xsl:for-each select="/package_support/statements/statement/packages/package">
@@ -30,9 +28,7 @@
 	<xsl:sort select="../../@end_date"/>
         <tr class="{../../@marker}">
           <td><a name="pkg-{@name}"><xsl:value-of select="@name"/></a></td>
-	  <td><xsl:value-of select="../../@marker"/></td>
 	  <td><xsl:value-of select="../../@start_date"/></td>
-	  <td><xsl:value-of select="../../@end_date"/></td>
 	  <td><a href="#{../../@id}"><xsl:value-of select="../../summary"/></a></td>
 	  <td><xsl:value-of select="key('note_id', @note )"/></td>
         </tr>
