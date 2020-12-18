@@ -16,7 +16,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <p>This is current as of <xsl:value-of select="/package_support/@current_as"/></p>
     <ul>
       <xsl:for-each select="/package_support/statements/statement">
-	<li><a href="#{@id}"><xsl:value-of select="summary"/></a> (<xsl:value-of select="@marker"/>)</li>
+	<li><a href="#{@id}"><xsl:value-of select="summary"/></a></li>
       </xsl:for-each>
     </ul>
     <xsl:for-each select="/package_support/statements/statement">
