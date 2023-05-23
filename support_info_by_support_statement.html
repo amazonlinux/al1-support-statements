@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>Package Support Status</h1>
-<p>This is current as of 2020-12-18T16:32:14.740778</p>
+<p>This is current as of 2023-05-17T23:38:53.897103</p>
 <ul>
 <li><a href="#alami2018.03_release">2018.03 Deprecated Packages</a></li>
 <li><a href="#eol202001">EOL As of Jan 2020</a></li>
@@ -21,6 +21,7 @@
 <li><a href="#eol_postgresql96">PostgreSQL 9.6 upstream End of Life on 2021-11-11</a></li>
 <li><a href="#eol_php73-common">PHP 7.3 upstream End Of Life is 2021-12-06</a></li>
 <li><a href="#eol_python36">Python 3.6 upstream End Of Life is December 2021</a></li>
+<li><a href="#eol_python38">AL1 EoL is before Python 3.8 upstream End Of Life, so overrides it</a></li>
 <li><a href="#eol_mysql57">MySQL 5.7 End Of Life on 2023-10-21</a></li>
 <li><a href="#eol_java-1.8.0-openjdk">OpenJDK 1.8.0 EoL is 2023-06-30</a></li>
 <li><a href="#eol">Amazon Linux 1 End Of Life</a></li>
@@ -3573,7 +3574,7 @@ statement.
 </table>
 <h2><a name="eol_java-1.7.0-openjdk">OpenJDK 1.7.0 EoL is 2020-06-30</a></h2>
 <p><a href="https://aws.amazon.com/amazon-linux-ami/faqs/">https://aws.amazon.com/amazon-linux-ami/faqs/</a></p>
-<p>OpenJDK 1.7.0 reaches End Of Life at end June 2020</p>
+<p>OpenJDK 1.7.0 reached End Of Life at end June 2020</p>
 <h3>Package List</h3>
 <table cellspacing="0">
 <tr>
@@ -3799,7 +3800,7 @@ statement.
 </table>
 <h2><a name="eol_mysql56">MySQL 5.6 End Of Life on 2021-02-05</a></h2>
 <p><a href="https://aws.amazon.com/amazon-linux-ami/faqs/">https://aws.amazon.com/amazon-linux-ami/faqs/</a></p>
-<p>MySQL 5.6 as part of Amazon Linux 1 will End of Life on 2021-02-05.</p>
+<p>MySQL 5.6 as part of Amazon Linux 1 reached End of Life on 2021-02-05.</p>
 <h3>Package List</h3>
 <table cellspacing="0">
 <tr>
@@ -3853,7 +3854,7 @@ statement.
 </table>
 <h2><a name="eol_postgresql95">PostgreSQL 9.5 upstream End of Life on 2021-02-11</a></h2>
 <p><a href="https://www.postgresql.org/support/versioning/">https://www.postgresql.org/support/versioning/</a></p>
-<p>Upstream PostgreSQL 9.5 will reach End of Life on 2021-02-11. As previously
+<p>Upstream PostgreSQL 9.5 reached End of Life on 2021-02-11. As previously
 announced, Amazon Linux 1 is following upstream End Of Life for PostgreSQL 9.5.
 The link provided is to the upstream statement.
                       </p>
@@ -3910,7 +3911,7 @@ The link provided is to the upstream statement.
 </table>
 <h2><a name="eol_postgresql96">PostgreSQL 9.6 upstream End of Life on 2021-11-11</a></h2>
 <p><a href="https://www.postgresql.org/support/versioning/">https://www.postgresql.org/support/versioning/</a></p>
-<p>Upstream PostgreSQL 9.6 will reach End of Life on 2021-11-11. As previously
+<p>Upstream PostgreSQL 9.6 reached End of Life on 2021-11-11. As previously
 announced, Amazon Linux 1 is following upstream End Of Life for PostgreSQL 9.6.
 The link provided is to the upstream statement.
                       </p>
@@ -3968,8 +3969,8 @@ The link provided is to the upstream statement.
 <h2><a name="eol_php73-common">PHP 7.3 upstream End Of Life is 2021-12-06</a></h2>
 <p><a href="https://www.php.net/supported-versions">https://www.php.net/supported-versions</a></p>
 <p>As previously announced, Amazon Linux 1 is following Upstream PHP 7.3 End
-                      of Life dates. Upstream PHP 7.3 will reach End of Life on 2021-12-06. The link provided is to the upstream
-                      End Of Life page</p>
+                      of Life dates. Upstream PHP 7.3 reached End of Life on 2021-12-06.
+                      The link provided is to the upstream End Of Life page</p>
 <h3>Package List</h3>
 <table cellspacing="0">
 <tr>
@@ -4108,7 +4109,7 @@ The link provided is to the upstream statement.
 <h2><a name="eol_python36">Python 3.6 upstream End Of Life is December 2021</a></h2>
 <p><a href="https://www.python.org/dev/peps/pep-0494/">https://www.python.org/dev/peps/pep-0494/</a></p>
 <p>
-                  The upstream Python community estimates an End of Life date for Python 3.6 of December 2021.
+                  The upstream Python community declared Python 3.6 End of Life as 23rd December 2021.
                   As communicated previously, Amazon Linux 1 will follow the upstream End of Life schedule for
                   Python 3.6. The link provided is to the upstream Python 3.6 release schedule.
                   </p>
@@ -4171,9 +4172,54 @@ The link provided is to the upstream statement.
 <td>Upstream End of Life for Python 3.6 (python36) is 2021-12-31</td>
 </tr>
 </table>
+<h2><a name="eol_python38">AL1 EoL is before Python 3.8 upstream End Of Life, so overrides it</a></h2>
+<p><a href="https://www.python.org/dev/peps/pep-0494/">https://www.python.org/dev/peps/pep-0494/</a></p>
+<p>
+                  The upstream Python community estimates an End of Life date for Python 3.8 of October 14th, 2024.
+                  Since this is after the Amazon Linux 1 End of Life date, the earlier date of AL1 EoL applies.
+                  </p>
+<h3>Package List</h3>
+<table cellspacing="0">
+<tr>
+<th>Package</th>
+<th>Note</th>
+</tr>
+<tr class="unsupported">
+<td>python38</td>
+<td>Upstream End of Life for Python 3.8 (python38) is 2024-10-14</td>
+</tr>
+<tr class="unsupported">
+<td>python38-debug</td>
+<td>Upstream End of Life for Python 3.8 (python38) is 2024-10-14</td>
+</tr>
+<tr class="unsupported">
+<td>python38-devel</td>
+<td>Upstream End of Life for Python 3.8 (python38) is 2024-10-14</td>
+</tr>
+<tr class="unsupported">
+<td>python38-libs</td>
+<td>Upstream End of Life for Python 3.8 (python38) is 2024-10-14</td>
+</tr>
+<tr class="unsupported">
+<td>python38-test</td>
+<td>Upstream End of Life for Python 3.8 (python38) is 2024-10-14</td>
+</tr>
+<tr class="unsupported">
+<td>python38-tools</td>
+<td>Upstream End of Life for Python 3.8 (python38) is 2024-10-14</td>
+</tr>
+<tr class="unsupported">
+<td>python38-pip</td>
+<td>Upstream End of Life for Python 3.8 (python38) is 2024-10-14</td>
+</tr>
+<tr class="unsupported">
+<td>python38-setuptools</td>
+<td>Upstream End of Life for Python 3.8 (python38) is 2024-10-14</td>
+</tr>
+</table>
 <h2><a name="eol_mysql57">MySQL 5.7 End Of Life on 2023-10-21</a></h2>
 <p><a href="https://aws.amazon.com/amazon-linux-ami/faqs/">https://aws.amazon.com/amazon-linux-ami/faqs/</a></p>
-<p>MySQL 5.7 in Amazon Linux 1 will reach End Of Life with the main Amazon Linux 1 End of Life date (which is earlier than the upstream End Of Life timeline)</p>
+<p>Upstream MySQL 5.7 reaches End Of Life on 2023-10-21.</p>
 <h3>Package List</h3>
 <table cellspacing="0">
 <tr>
@@ -4258,7 +4304,7 @@ The link provided is to the upstream statement.
 <h2><a name="eol">Amazon Linux 1 End Of Life</a></h2>
 <p><a href="https://aws.amazon.com/amazon-linux-ami/faqs/">https://aws.amazon.com/amazon-linux-ami/faqs/</a></p>
 <p>
-The Maintenance Support period of Amazon Linux 1 ends on June 30, 2023.
+The Maintenance Support period of Amazon Linux 1 ends on December 31st, 2023.
 
 From this point, the remaining Amazon Linux 1 packages (listed below)
 will no longer receive any updates from AWS.
@@ -7870,6 +7916,22 @@ will no longer receive any updates from AWS.
 <td></td>
 </tr>
 <tr class="unsupported">
+<td>go-filesystem</td>
+<td></td>
+</tr>
+<tr class="unsupported">
+<td>go-rpm-macros</td>
+<td></td>
+</tr>
+<tr class="unsupported">
+<td>go-rpm-templates</td>
+<td></td>
+</tr>
+<tr class="unsupported">
+<td>go-srpm-macros</td>
+<td></td>
+</tr>
+<tr class="unsupported">
 <td>gobject-introspection</td>
 <td></td>
 </tr>
@@ -7898,11 +7960,19 @@ will no longer receive any updates from AWS.
 <td></td>
 </tr>
 <tr class="unsupported">
+<td>golang-shared</td>
+<td></td>
+</tr>
+<tr class="unsupported">
 <td>golang-src</td>
 <td></td>
 </tr>
 <tr class="unsupported">
 <td>golang-tests</td>
+<td></td>
+</tr>
+<tr class="unsupported">
+<td>golist</td>
 <td></td>
 </tr>
 <tr class="unsupported">
@@ -9830,6 +9900,18 @@ will no longer receive any updates from AWS.
 <td></td>
 </tr>
 <tr class="unsupported">
+<td>libcap54</td>
+<td></td>
+</tr>
+<tr class="unsupported">
+<td>libcap54-devel</td>
+<td></td>
+</tr>
+<tr class="unsupported">
+<td>libcap54-static</td>
+<td></td>
+</tr>
+<tr class="unsupported">
 <td>libcgroup</td>
 <td></td>
 </tr>
@@ -10035,6 +10117,18 @@ will no longer receive any updates from AWS.
 </tr>
 <tr class="unsupported">
 <td>libev-source</td>
+<td></td>
+</tr>
+<tr class="unsupported">
+<td>libevdev</td>
+<td></td>
+</tr>
+<tr class="unsupported">
+<td>libevdev-devel</td>
+<td></td>
+</tr>
+<tr class="unsupported">
+<td>libevdev-utils</td>
 <td></td>
 </tr>
 <tr class="unsupported">
@@ -11335,6 +11429,10 @@ will no longer receive any updates from AWS.
 </tr>
 <tr class="unsupported">
 <td>log4j</td>
+<td></td>
+</tr>
+<tr class="unsupported">
+<td>log4j-cve-2021-44228-hotpatch</td>
 <td></td>
 </tr>
 <tr class="unsupported">
@@ -21170,6 +21268,10 @@ will no longer receive any updates from AWS.
 <td></td>
 </tr>
 <tr class="unsupported">
+<td>uClibc-devel</td>
+<td></td>
+</tr>
+<tr class="unsupported">
 <td>udev</td>
 <td></td>
 </tr>
@@ -21363,6 +21465,10 @@ will no longer receive any updates from AWS.
 </tr>
 <tr class="unsupported">
 <td>vim-common</td>
+<td></td>
+</tr>
+<tr class="unsupported">
+<td>vim-data</td>
 <td></td>
 </tr>
 <tr class="unsupported">
