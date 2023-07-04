@@ -13,11 +13,11 @@ td {
     padding: 0.5em 1em;
 }
 
-tr.supported {
+tr.supported, td.supported {
     background-color: #efe;
 }
 
-tr.unsupported {
+tr.unsupported, td.unsupported {
     background-color: #fdd;
 }
 
@@ -49,4 +49,13 @@ h2 {
     border-bottom: 1px dotted #999;
     background-color: #eee;
     padding: 0.25em 0.5em;
+}
+
+code.bash::before {
+  content: "$ ";
+}
+code.bash {
+    background-color: lightgrey;
+    padding: 0.15em;
+    font-family: monospace;
 }

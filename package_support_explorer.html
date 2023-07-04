@@ -1,0 +1,344 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="support_info.css">
+</head>
+<body>
+  <h1>Package Support Explorer</h1>
+  <p>This page will dynamically generate the information for your set of provided packages. It is thus useful for determining how the Support Statements impact your particular system or image.</p>
+  <p>You can paste in a list of package names to get a custom report of all the relevant support statements with dates.</p>
+  <p>If you want to get the results for a specific system, pasting in the result of <code class="bash">rpm -qa --qf &quot;%{NAME}\n&quot;</code> is the preferred way, although if you just have the result of <code class="bash">rpm -qa</code> this page will attempt to match the full NEVRA to a package name using a rather effective regex.</p>
+  <p>The default set of packages is what is included in the AL1 container image, retreived with <code class="bash">docker run --rm public.ecr.aws/amazonlinux/amazonlinux:1 rpm -qa --qf &quot;%{NAME}\n&quot;|grep -v gpg-pubkey</code>.</p>
+  <p>You can change the Time to pretend it is, and this will change the highlighting in the generated table.</p>
+  <hr/>
+  <div>
+    <p>
+      <label for="thetime">Time to look at support for: </label>
+      <input id="thetime" size="40" type="text" onchange="package_list_changed()"/> (defaults to the time when this page was loaded)
+    </p>
+    <p>
+      <label for="package_list">List of packages: </label><br/>
+      <textarea id="package_list" name="package_list" rows="20" cols="80"  onchange="package_list_changed()">
+      </textarea>
+    </p>
+    <p>
+      <button onclick="reset_packages_to_AL1_container(); package_list_changed();">
+	Reset packages to AL1 Container Image
+      </button>
+    </p>
+  </div>
+  
+  <h2>Known Support Statements</h2>
+  <p>Below is a list of the support statements being used</p>
+  <div id="support_statements">
+    <p>No support statements found (or javascript off/not-ready)</p>
+  </div>
+  <h1 style="margin-left: 0; margin-right: 0;">Currently Unsupported Packages</h1>
+  <div id="my_currently_unsupported">
+    <p>No unsupported packages or javascript error</p>
+  </div>
+  <h1 style="margin-left: 0; margin-right: 0;">All Packages</h1>
+  <div id="warnings">
+    <ul>
+    </ul>
+  </div>
+  <div id="my_package_status">
+    <p>No packages found (or javascript off/not-ready)</p>
+  </div>
+  <script lang="javascript">
+    var d = new Date(Date());
+    document.getElementById("thetime").value = d.toISOString();
+    var xhttp = new XMLHttpRequest();
+    var support_info;
+    xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+	    support_info = xhttp.responseXML;
+	    clear_warnings();
+	    refresh_support_statements();
+	    package_list_changed();
+	}
+    };
+    xhttp.open("GET", "support_info.xml", true);
+    xhttp.send();
+    reset_packages_to_AL1_container();
+
+    function reset_packages_to_AL1_container() {
+	document.getElementById("package_list").value = `basesystem
+nss-softokn-freebl
+nspr
+libselinux
+db4
+readline
+libacl
+libxml2
+libassuan
+p11-kit
+shared-mime-info
+libpsl
+libgcrypt
+libunistring
+ncurses
+coreutils
+nss-tools
+libcurl
+openldap
+gpgme
+rpm-python27
+yum-metadata-parser
+python27-chardet
+yum-plugin-priorities
+yum-utils
+ncurses-base
+bash
+ncurses-libs
+zlib
+bzip2-libs
+lua
+libcap
+libstdc++72
+sed
+libffi
+keyutils-libs
+pcre
+pinentry
+libidn2
+libverto
+nss-pem
+libssh2
+curl
+pth
+expat
+python27-pycurl
+python27-pyxattr
+python27-kitchen
+sysctl-defaults
+ca-certificates
+setup
+tzdata
+glibc-common
+nss-util
+info
+popt
+elfutils-libelf
+libgpg-error
+libcom_err
+file-libs
+pkgconfig
+gmp
+grep
+db4-utils
+make
+krb5-libs
+nss
+gdbm
+rpm-libs
+gnupg2
+python27
+python27-urlgrabber
+python27-pyliblzma
+python27-iniparse
+system-release
+gzip
+filesystem
+libgcc72
+glibc
+libsepol
+xz-libs
+chkconfig
+libattr
+sqlite
+nss-softokn
+libtasn1
+glib2
+libicu
+p11-kit-trust
+cyrus-sasl-lib
+gawk
+openssl
+nss-sysinit
+libnghttp2
+rpm
+rpm-build-libs
+python27-libs
+python27-pygpgme
+libxml2-python27
+yum
+yum-plugin-ovl
+tar`;
+    }
+
+    function td_class(c, t) {
+	return "<td class=\"" + c + "\">" + t + "</td>";
+    }
+
+
+    function td(t) {
+	return "<td>" + t + "</td>";
+    }
+
+    function href(r, t) {
+	return "<a href=\"" + r + "\">" + t + "</a>";
+    }
+
+
+    function get_nodes_for_path(path, xml) {
+	var r = [];
+	if (xml.evaluate) {
+            var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+            var result = nodes.iterateNext();
+            while (result) {
+		if (result) {
+		    r.push(result);
+		}
+		result = nodes.iterateNext();
+            } 
+	    // Code For Internet Explorer
+	} else if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
+            xml.setProperty("SelectionLanguage", "XPath");
+            nodes = xml.selectNodes(path);
+            for (i = 0; i < nodes.length; i++) {
+		if (nodes[i]) {
+		    r.push(nodes[i]);
+		}
+            }
+	}
+
+	return r;
+    }
+
+    function clear_warnings() {
+	document.getElementById("warnings").getElementsByTagName("ul")[0].replaceChildren();
+    }
+
+    function add_warning(t) {
+	li = document.createElement("li");
+	li.appendChild(document.createTextNode(t));
+	document.getElementById("warnings").getElementsByTagName("ul")[0].appendChild(li);
+    }
+
+    function translate_package_name(p) {
+	if(p.match(/^system-release-20[0-9]+\.0[39]/)) {
+	    return "system-release";
+	}
+	return p.replace(/-([0-9:\-.][a-z]?)+.amzn[0-9]+.(noarch|x86_64|aarch64)/, '');
+    }
+
+    function get_note(note_id, xml) {
+	nodes = get_nodes_for_path("//notes/note[@id=\"" + note_id + "\"]", xml);
+	if (nodes.length == 0) {
+	    add_warning("Could not find referenced note for package, note_id: " + note_id);
+	} else if (nodes.length > 1) {
+	    add_warning("More than one note with note_id: " + note_id);
+	} else {
+	    return nodes[0]
+	}
+    }
+
+    function get_class_for_date(d) {
+	var pretend_now = new Date(document.getElementById("thetime").value);
+	var s_date = new Date(d);
+	if (pretend_now < s_date) {
+	    return "supported";
+	} else {
+	    return "unsupported";
+	}
+    }
+
+    function package_list_changed() {
+	clear_warnings();
+	var pl = document.getElementById("package_list").value;
+	var pkgs = pl.split(/\r?\n/);
+	var si = support_info;
+
+	var table = "<table>";
+	table += "<tr>"
+	    + "<th>Entered Package</th>"
+	    + "<th>Matched Package</th>"
+	    + "<th>Statement Start</th>"
+	    + "<th>Type</th>"
+	    + "<th>Statement</th>"
+	    + "<th>Note</th>"
+	    + "</tr>";
+	var unsupported_table = table;
+	var i;
+	for (i = 0; i < pkgs.length; i++) {
+	    var package_name = translate_package_name(pkgs[i]);
+	    if (package_name == "")
+		continue;
+	    if (package_name.match(/^gpg-pubkey-[0-9a-f]+-[0-9a-f]+$/)) {
+		add_warning("Skipping GPG key " + package_name);
+		continue;
+	    }
+	    path = "//package[@name=\"" + package_name + "\"]";
+	    nodes = get_nodes_for_path(path, si);
+	    var row = "<tr>";
+	    var add_to_unsupported = false;
+	    row += td(pkgs[i]);
+	    if (nodes.length > 1 ) {
+		add_warning("Multiple matches for package name: " + pkgs[i])
+	    } else if (nodes.length == 1) {
+		row += td(href("support_info_by_package.html#pkg-" + nodes[0].getAttribute('name'),
+				 nodes[0].getAttribute('name')));
+		pkg_statement = nodes[0].parentNode.parentNode;
+		s = pkg_statement;
+		c = get_class_for_date(s.getAttribute('start_date'));
+		if (c == "unsupported") {
+		    add_to_unsupported = true;
+		}
+		row += td_class(c, s.getAttribute('start_date'));
+		c = get_class_for_date(s.getAttribute('marker'));
+		row += td_class(c, s.getAttribute('marker'));
+		row += td(
+		    href("support_info_by_support_statement.html#" +
+			 s.getAttribute('id'),
+			 s.getElementsByTagName("summary")[0].innerHTML)
+		);
+
+		if (nodes[0].getAttribute('note')) {
+		    row += td(get_note(nodes[0].getAttribute('note'), si).innerHTML);
+		}
+
+	    } else {
+		add_warning("No matching package: " + pkgs[i]);
+	    }
+	    row += "</tr>";
+	    table += row;
+	    if (add_to_unsupported) {
+		unsupported_table += row;
+	    }
+	}
+	table += "</table>";
+	unsupported_table += "</table>";
+	document.getElementById("my_package_status").innerHTML =
+	    table;
+	document.getElementById("my_currently_unsupported").innerHTML =
+	    unsupported_table;
+    }
+
+    function refresh_support_statements() {
+	var si = support_info;
+	var i;
+	var table="<table><tr><th>Summary</th><th>Type</th><th>Start</th></tr>";
+	var statements = si.getElementsByTagName("statement");
+	for (i = 0; i < statements.length; i ++) {
+	    var s = statements[i];
+	    table += "<tr>"
+		+ td(
+		    href("support_info_by_support_statement.html#" +
+			 s.getAttribute('id'),
+			 s.getElementsByTagName("summary")[0].innerHTML));
+	    marker = s.getAttribute('marker');
+	    table += td_class(marker, marker);
+	    start_date = s.getAttribute('start_date');
+	    if (start_date) {
+		c = get_class_for_date(start_date);
+		table += td_class(c, start_date);
+	    }
+	    table += "</tr>";
+	}
+	table += "</table>";
+	document.getElementById("support_statements").innerHTML = table;
+    };
+  </script>
+</body>
+</html>
