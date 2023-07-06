@@ -21,6 +21,14 @@ tr.unsupported, td.unsupported {
     background-color: #fdd;
 }
 
+tr.unsupportedin60, td.unsupportedin60 {
+    background-color: orange;
+}
+
+tr.unsupportedin180, td.unsupportedin180 {
+    background-color: yellow;
+}
+
 td:first-child {
     border-left: none;
 }

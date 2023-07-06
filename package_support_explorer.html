@@ -14,7 +14,33 @@
   <div>
     <p>
       <label for="thetime">Time to look at support for: </label>
-      <input id="thetime" size="40" type="text" onchange="package_list_changed()"/> (defaults to the time when this page was loaded)
+      <input id="thetime" size="40" type="text" onchange="refresh_support_statements(); package_list_changed()"/> (defaults to the time when this page was loaded)
+     <table>
+      <thead>
+	<tr>
+	  <th>Background Color</th>
+	  <th>Meaning</th>
+	</tr>
+      </thead>
+      <tbody>
+	<tr class="supported">
+	  <td>Green</td>
+	  <td>More than 180 days of support remaining from the above date</td>
+	</tr>
+	<tr class="unsupported">
+	  <td>Red</td>
+	  <td>As the time of the above date, the package is End of Life</td>
+	</tr>
+	<tr class="unsupportedin60">
+	  <td>Orange</td>
+	  <td>Fewer than 60 days of support remaining from the above date</td>
+	</tr>
+	<tr class="unsupportedin180">
+	  <td>Yellow</td>
+	  <td>Fewer than 180 days of support remaining from the above date</td>
+	</tr>
+      </tbody>
+    </table>
     </p>
     <p>
       <label for="package_list">List of packages: </label><br/>
@@ -234,14 +260,23 @@ tar`;
 	}
     }
 
-    function get_class_for_date(d) {
-	var pretend_now = new Date(document.getElementById("thetime").value);
-	var s_date = new Date(d);
-	if (pretend_now < s_date) {
-	    return "supported";
-	} else {
-	    return "unsupported";
-	}
+    function get_days_remaining(d) {
+      var pretend_now = new Date(document.getElementById("thetime").value);
+      var s_date = new Date(d);
+      var days_remaining = ((s_date.getTime() - pretend_now.getTime()) / (1 * 24 * 60 * 60 * 1000)).toFixed();
+      return days_remaining;
+    }
+
+    function get_class_for_days_remaining(days_remaining) {
+      if (days_remaining < 0) {
+        return "unsupported";
+      } else if (days_remaining > 180) {
+        return "supported";
+      } else if (days_remaining > 60) {
+        return "unsupportedin180";
+      } else {
+        return "unsupportedin60";
+      }
     }
 
     function package_list_changed() {
@@ -255,6 +290,7 @@ tar`;
 	    + "<th>Entered Package</th>"
 	    + "<th>Matched Package</th>"
 	    + "<th>Statement Start</th>"
+	    + "<th>Days Remaining</th>"
 	    + "<th>Type</th>"
 	    + "<th>Statement</th>"
 	    + "<th>Note</th>"
@@ -281,12 +317,15 @@ tar`;
 				 nodes[0].getAttribute('name')));
 		pkg_statement = nodes[0].parentNode.parentNode;
 		s = pkg_statement;
-		c = get_class_for_date(s.getAttribute('start_date'));
+
+	        days_remaining = get_days_remaining(s.getAttribute('start_date'));
+	        c = get_class_for_days_remaining(days_remaining);
 		if (c == "unsupported") {
 		    add_to_unsupported = true;
 		}
 		row += td_class(c, s.getAttribute('start_date'));
-		c = get_class_for_date(s.getAttribute('marker'));
+		row += td_class(c, days_remaining);
+		c = s.getAttribute('marker');
 		row += td_class(c, s.getAttribute('marker'));
 		row += td(
 		    href("support_info_by_support_statement.html#" +
@@ -318,7 +357,7 @@ tar`;
     function refresh_support_statements() {
 	var si = support_info;
 	var i;
-	var table="<table><tr><th>Summary</th><th>Type</th><th>Start</th></tr>";
+	var table="<table><tr><th>Summary</th><th>Type</th><th>Start</th><th>Days Remaining</th></tr>";
 	var statements = si.getElementsByTagName("statement");
 	for (i = 0; i < statements.length; i ++) {
 	    var s = statements[i];
@@ -330,9 +369,11 @@ tar`;
 	    marker = s.getAttribute('marker');
 	    table += td_class(marker, marker);
 	    start_date = s.getAttribute('start_date');
-	    if (start_date) {
-		c = get_class_for_date(start_date);
+            if (start_date) {
+		days_remaining = get_days_remaining(start_date);
+		c = get_class_for_days_remaining(days_remaining);
 		table += td_class(c, start_date);
+		table += td_class(c, days_remaining);
 	    }
 	    table += "</tr>";
 	}
