@@ -76,6 +76,9 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     };
     for (const [s_id, start_date] of Object.entries(support_dates)) {
       rows = document.getElementById(s_id).getElementsByTagName("tr")
+      if (rows.length &lt; 2) {
+            continue; // Maybe no packages
+      }
       newclass = rows[1].getAttribute("class");
 
       sd = new Date(start_date);
